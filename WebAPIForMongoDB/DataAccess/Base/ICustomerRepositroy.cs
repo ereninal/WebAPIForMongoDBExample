@@ -5,5 +5,6 @@ namespace WebAPIForMongoDB.DataAccess.Base
 {
     public interface ICustomerRepository : IRepository<Customer, string>
     {
+        Customer GetByName(string name);
     }
 }

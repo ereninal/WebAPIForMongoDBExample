@@ -14,6 +14,6 @@ namespace WebAPIForMongoDB.Entities.MongoDB
         [BsonRepresentation(BsonType.DateTime)]
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         [BsonElement(Order = 101)]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }

@@ -44,11 +44,18 @@ namespace WebAPIForMongoDB.Controllers
             var result = customerRepository.Get();
             return Ok(result);
         }
-        [Route("mongo-api/get-single")]
+        [Route("mongo-api/get-single-by-id")]
         [HttpGet]
         public IActionResult Get(string id)
         {
-            var result = customerRepository.GetByIdAsync(id);
+            var result = customerRepository.GetById(id);
+            return Ok(result);
+        }
+        [Route("mongo-api/get-by-name")]
+        [HttpGet]
+        public IActionResult GetByName(string name)
+        {
+            var result = customerRepository.GetByName(id);
             return Ok(result);
         }
     }

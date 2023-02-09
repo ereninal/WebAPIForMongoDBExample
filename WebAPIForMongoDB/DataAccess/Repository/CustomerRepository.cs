@@ -6,11 +6,20 @@ using WebAPIForMongoDB.Entities.MongoDB;
 
 namespace WebAPIForMongoDB.DataAccess.Repository
 {
-    public class CustomerRepository : MongoDbRepositoryBase<Customer>,ICustomerRepository
+    public class CustomerRepository : MongoDbRepositoryBase<Customer>, ICustomerRepository
     {
         public CustomerRepository(IOptions<MongoDbSettings> options) : base(options)
         {
 
+        }
+
+        public Customer GetByName(string name)
+        {
+            using (resource)
+            {
+
+            }
+            return new Customer { };
         }
     }
 }

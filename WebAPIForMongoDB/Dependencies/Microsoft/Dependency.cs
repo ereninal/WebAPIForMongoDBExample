@@ -12,26 +12,27 @@ namespace WebAPIForMongoDB.Dependencies.Microsoft
         {
             services.AddSingleton<ICustomerRepository, CustomerRepository>();
 
-            //MongoDbSettings mongoConfig = configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
-            //services.AddSingleton(mongoConfig);
+           
             
-            services.Configure<MongoDbSettings>(options =>
-            {
-                options.Host = configuration
-                    .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.HostValue).Value;
-                options.Port = configuration
-                    .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.PortValue).Value;
-                options.ConnectTimeout = configuration
-                    .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.ConnectTimeoutValue).Value;
-                options.ServerSelectionTimeout = configuration
-                    .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.ServerSelectionTimeoutValue).Value;
-                options.SocketTimeout = configuration
-                    .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.SocketTimeoutValue).Value;  
-                options.DatabaseName = configuration
-                    .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.DatabaseNameValue).Value;
+            //services.Configure<MongoDbSettings>(options =>
+            //{
+            //    options.Host = configuration
+            //        .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.HostValue).Value;
+            //    options.Port = configuration
+            //        .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.PortValue).Value;
+            //    options.ConnectTimeout = configuration
+            //        .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.ConnectTimeoutValue).Value;
+            //    options.ServerSelectionTimeout = configuration
+            //        .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.ServerSelectionTimeoutValue).Value;
+            //    options.SocketTimeout = configuration
+            //        .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.SocketTimeoutValue).Value;  
+            //    options.DatabaseName = configuration
+            //        .GetSection(nameof(MongoDbSettings) + ":" + MongoDbSettings.DatabaseNameValue).Value;
                
-            });
+            //});
 
+            MongoDbSettings mongoConfig = configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
+            services.AddSingleton(mongoConfig);
             return services;
 
         }

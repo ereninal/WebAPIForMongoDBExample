@@ -8,6 +8,7 @@ namespace WebAPIForMongoDB.Core.Patterns.Repository.MongoDb
         IQueryable<T> Get(Expression<Func<T, bool>> predicate = null);
         Task<T> GetAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetByIdAsync(TKey id);
+        T GetById(string id);
         Task<T> AddAsync(T entity);
         Task<bool> AddRangeAsync(IEnumerable<T> entities);
         Task<T> UpdateAsync(TKey id, T entity);

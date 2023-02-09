@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 using WebAPIForMongoDB.Core.Settings.MongoDB;
@@ -42,6 +43,12 @@ namespace WebAPIForMongoDB.Core.Patterns.Repository.MongoDb
         public virtual Task<T> GetByIdAsync(string id)
         {
             return Collection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        } 
+        
+        public virtual T GetById(string id)
+        {
+            var data = Collection.AsQueryable().Where(m => m.CreatedDate ).FirstOrDefault();
+            return data;
         }
 
         public virtual async Task<T> AddAsync(T entity)
