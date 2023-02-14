@@ -8,6 +8,7 @@ namespace WebAPIForMongoDB.DataAccess.Repository
 {
     public class CustomerRepository : MongoDbRepositoryBase<Customer>, ICustomerRepository
     {
+        
         public CustomerRepository(IOptions<MongoDbSettings> options) : base(options)
         {
 
@@ -15,10 +16,7 @@ namespace WebAPIForMongoDB.DataAccess.Repository
 
         public Customer GetByName(string name)
         {
-            using (resource)
-            {
 
-            }
             return new Customer { };
         }
     }

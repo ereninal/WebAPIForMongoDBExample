@@ -4,12 +4,12 @@ using WebAPIForMongoDB.Core.Persistence.MongoDB;
 
 namespace WebAPIForMongoDB.Entities.MongoDB
 {
-    public abstract class MongoDbEntity : IEntityMongoDb<string>
+    public abstract class MongoDbEntity : IEntityMongoDb<ObjectId>
     {
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonId]
         [BsonElement(Order = 0)]
-        public string Id { get; } = ObjectId.GenerateNewId().ToString();
+        public ObjectId Id { get; } = ObjectId.GenerateNewId();
 
         [BsonRepresentation(BsonType.DateTime)]
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]

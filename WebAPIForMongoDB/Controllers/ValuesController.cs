@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
 using WebAPIForMongoDB.DataAccess.Base;
 using WebAPIForMongoDB.Entities.MongoDB;
+using WebAPIForMongoDB.Models;
 
 namespace WebAPIForMongoDB.Controllers
 {
     [ApiVersion("1.0")]
     [ApiController]
-    
+
     public class ValuesController : ControllerBase
     {
         private readonly ICustomerRepository customerRepository;
@@ -25,14 +27,14 @@ namespace WebAPIForMongoDB.Controllers
         }
         [Route("mongo-api/create-range")]
         [HttpPost]
-        public IActionResult CreateRangeAsync([FromBody] IEnumerable<Customer> data)
+        public IActionResult CreateRangeAsync([FromBody] IList<Customer> data)
         {
             var result = customerRepository.AddRangeAsync(data).Result;
             return Ok(result);
         }
         [Route("mongo-api/update")]
         [HttpPut]
-        public IActionResult Update([FromBody] IEnumerable<Customer> data)
+        public IActionResult Update([FromBody] IList<Customer> data)
         {
             var result = customerRepository.AddRangeAsync(data).Result;
             return Ok(result);
@@ -41,21 +43,21 @@ namespace WebAPIForMongoDB.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = customerRepository.Get();
+            var result = customerRepository.Get().Select(m => new CustomerDto { Id = m.Id.ToString(), Age = m.Age, Name = m.Fullname });
             return Ok(result);
         }
         [Route("mongo-api/get-single-by-id")]
         [HttpGet]
         public IActionResult Get(string id)
         {
-            var result = customerRepository.GetById(id);
+            var result = customerRepository.GetById(new ObjectId(id));
             return Ok(result);
         }
         [Route("mongo-api/get-by-name")]
         [HttpGet]
         public IActionResult GetByName(string name)
         {
-            var result = customerRepository.GetByName(id);
+            var result = customerRepository.GetByName(name);
             return Ok(result);
         }
     }
@@ -78,5 +80,5 @@ namespace WebAPIForMongoDB.Controllers
 
     //    return new JsonResult(response);
     //}
-   
+
 }

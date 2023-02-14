@@ -27,7 +27,6 @@
     <Folder Include="Core\Logging\" />
     <Folder Include="Dependencies\Autofac\" />
     <Folder Include="Entities\PostgreSQL\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

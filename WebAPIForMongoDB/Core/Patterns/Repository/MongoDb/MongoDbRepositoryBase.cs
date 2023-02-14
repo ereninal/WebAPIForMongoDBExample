@@ -7,7 +7,7 @@ using WebAPIForMongoDB.Entities.MongoDB;
 
 namespace WebAPIForMongoDB.Core.Patterns.Repository.MongoDb
 {
-    public abstract class MongoDbRepositoryBase<T> : IRepository<T, string> where T : MongoDbEntity, new()
+    public abstract class MongoDbRepositoryBase<T> : IRepository<T, ObjectId> where T : MongoDbEntity, new()
     {
         protected readonly IMongoCollection<T> Collection;
         private readonly MongoDbSettings settings;
@@ -40,14 +40,14 @@ namespace WebAPIForMongoDB.Core.Patterns.Repository.MongoDb
             return Collection.Find(predicate).FirstOrDefaultAsync();
         }
 
-        public virtual Task<T> GetByIdAsync(string id)
+        public virtual Task<T> GetByIdAsync(ObjectId id)
         {
             return Collection.Find(x => x.Id == id).FirstOrDefaultAsync();
         } 
         
-        public virtual T GetById(string id)
+        public virtual T GetById(ObjectId id)
         {
-            var data = Collection.AsQueryable().Where(m => m.CreatedDate ).FirstOrDefault();
+            var data = Collection.AsQueryable().Where(m => m.Id == id).FirstOrDefault();
             return data;
         }
 
@@ -58,15 +58,15 @@ namespace WebAPIForMongoDB.Core.Patterns.Repository.MongoDb
             return entity;
         }
 
-        public virtual async Task<bool> AddRangeAsync(IEnumerable<T> entities)
+        public virtual async Task<bool> AddRangeAsync(IList<T> entities)
         {
-            //var data = (IEnumerable<WriteModel<T>>);
-            var options = new BulkWriteOptions { IsOrdered = false, BypassDocumentValidation = false };
-            await Collection.InsertManyAsync(entities);
-            return (await Collection.BulkWriteAsync((IEnumerable<WriteModel<T>>)entities, options)).IsAcknowledged;
+            //var options = new BulkWriteOptions { IsOrdered = false, BypassDocumentValidation = false };
+            var options = new InsertManyOptions { IsOrdered = false, BypassDocumentValidation = false };
+            await Collection.InsertManyAsync(entities, options);
+            return true;//(await Collection.BulkWriteAsync((IList<WriteModel<T>>)entities, options)).IsAcknowledged;
         }
 
-        public virtual async Task<T> UpdateAsync(string id, T entity)
+        public virtual async Task<T> UpdateAsync(ObjectId id, T entity)
         {
             return await Collection.FindOneAndReplaceAsync(x => x.Id == id, entity);
         }
@@ -81,7 +81,7 @@ namespace WebAPIForMongoDB.Core.Patterns.Repository.MongoDb
             return await Collection.FindOneAndDeleteAsync(x => x.Id == entity.Id);
         }
 
-        public virtual async Task<T> DeleteAsync(string id)
+        public virtual async Task<T> DeleteAsync(ObjectId id)
         {
             return await Collection.FindOneAndDeleteAsync(x => x.Id == id);
         }
