@@ -34,6 +34,13 @@ namespace WebAPIForMongoDB.Controllers
         }
         [Route("mongo-api/update")]
         [HttpPut]
+        public IActionResult Update([FromBody] Customer data, string id)
+        {
+            var result = customerRepository.UpdateAsync(new ObjectId(id), data);
+            return Ok(result);
+        }
+        [Route("mongo-api/patch")]
+        [HttpPatch]
         public IActionResult Update([FromBody] IList<Customer> data)
         {
             var result = customerRepository.AddRangeAsync(data).Result;
@@ -48,14 +55,21 @@ namespace WebAPIForMongoDB.Controllers
         }
         [Route("mongo-api/get-single-by-id")]
         [HttpGet]
-        public IActionResult Get(string id)
+        public IActionResult Get([FromQuery] string id)
         {
             var result = customerRepository.GetById(new ObjectId(id));
             return Ok(result);
         }
+        [Route("mongo-api/delete")]
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] string id)
+        {
+            var result = customerRepository.DeleteAsync(new ObjectId(id));
+            return Ok(result);
+        }
         [Route("mongo-api/get-by-name")]
         [HttpGet]
-        public IActionResult GetByName(string name)
+        public IActionResult GetByName([FromQuery] string name)
         {
             var result = customerRepository.GetByName(name);
             return Ok(result);
